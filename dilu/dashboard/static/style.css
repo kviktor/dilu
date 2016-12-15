@@ -1,0 +1,64 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 40px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 40px;
+  line-height: 40px; /* Vertically center the text there */
+  background-color: #f5f5f5;
+}
+
+/* custom styles */
+.dj-object {
+  margin-bottom: 25px;
+  padding: 10px;
+}
+
+.dj-object span[contenteditable="true"] {
+  padding: 5px;
+}
+
+.dj-code {
+  display: none;
+  margin-top: 15px;
+}
+
+.jumbotron {
+  margin-top: 0;
+  padding: 80px 20px 20px 20px;
+}
+
+.form-control {
+  height: 3rem;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+}
+
+button {
+  height: 46px;
+  font-size: 18px;
+}
+
+#num-results {
+  margin-top: 15px;
+}
+
+.hidden {
+  display: none;
+}
+
+.alert {
+  margin-top: 15px;
+  padding: 6px 15px;
+}

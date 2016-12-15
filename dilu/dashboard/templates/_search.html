@@ -1,0 +1,25 @@
+{% load i18n %}
+
+{% for o in objects %}
+  <div class="dj-object">
+    <div class="pull-xs-right">
+      <a href="{{ o.get_github_url }}" class="btn btn-sm btn-secondary">
+        <i class="fa fa-github"></i>
+        github
+      </a>
+      <a href="#" class="btn btn-sm btn-secondary show-code">
+        <i class="fa fa-code"></i>
+        {% trans "code" %}
+      </a>
+    </div>
+    <h3>
+      {{ o.name }}
+      <small class="text-muted">{{ o.module.path }}</small>
+    </h3>
+    {% trans "Import path" %}: 
+    <span contenteditable="true">
+      from {{ o.short_import }} import {{ o.name }}
+    </span>
+    <pre class="dj-code"><code class="python">{{ o.code }}</code></pre>
+  </div>
+{% endfor %}

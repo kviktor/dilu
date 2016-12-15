@@ -1,0 +1,7 @@
+__pycache__
+*.pyc
+*.swp
+*.swo
+repo_django/
+*.db
+*.sqlite3
