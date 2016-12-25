@@ -13,9 +13,9 @@
         - {{ form.query.value }}
       {% endif %}
     </title>
-    <link href="{% static "bootstrap.min.css" %}" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css" rel="stylesheet">
     <link href="{% static "css/font-awesome.min.css" %}" rel="stylesheet">
-    <link href="{% static "styles/default.css" %}" rel="stylesheet">
     <link href="{% static "style.css" %}" rel="stylesheet">
   </head>
 
@@ -64,8 +64,8 @@
       <span class="text-muted pull-right">made by me</span>
     </footer>
 
-    <script src="{% static "jquery.min.js" %}"></script>
-    <script src="{% static "highlight.pack.js" %}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
     <script src="{% static "project.js" %}"></script>
   </body>
 </html>

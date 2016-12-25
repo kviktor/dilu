@@ -62,3 +62,11 @@ button {
   margin-top: 15px;
   padding: 6px 15px;
 }
+
+select {
+  height: 3rem !important;
+}
+
+footer span {
+  margin-right: 10px;
+}

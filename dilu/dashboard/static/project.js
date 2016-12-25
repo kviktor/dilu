@@ -1,5 +1,6 @@
 $(function() {
   var spinner_class = "fa fa-fw fa-spin fa-spinner";
+  var default_class = "fa fa-fw fa-search";
   var timer = 0;
 
   function mySearch () { 
@@ -16,20 +17,21 @@ $(function() {
           if(data.q) document.title = "dilu - " + q;
         }
       });
-  };
+  }
 
   function validateSearch() {
       var q = $("input").val();
-      if(q && q.length < 3) {
+      if(q.length < 3) {
         $(".alert").show();
+        $("button i").prop("class", "fa fa-fw fa-search");
       }
       else if(q) {
         $(".alert").hide();
-        $("button i").prop("class", spinner_class);
         mySearch();
       }
   }
   $("body").on('keyup', "input", function(e) {
+    $("button i").prop("class", spinner_class);
     if (timer) {
         clearTimeout(timer);
     }
