@@ -1,0 +1,4 @@
+Django==1.8.17
+GitPython==1.0.1
+django-model-utils==2.4
+uWSGI==2.0.14
