@@ -3,9 +3,13 @@ import sys
 import importlib
 import inspect
 import json
+import subprocess
+
+from git import Git
+
 
 file_dir = os.path.dirname(os.path.realpath(__file__))
-repo_dir = "%s/repo_django" % file_dir
+repo_dir = os.path.join(file_dir, "repo_django")
 sys.path = [repo_dir] + sys.path
 
 
@@ -18,34 +22,33 @@ def update_conv(member, path, convs):
     return convs
 
 
+def get_object_type(obj):
+    if inspect.isclass(obj):
+        return "c"
+    elif inspect.isfunction(obj):
+        return "f"
+
+
 def describe(module, convs):
     objs = {}
     for name, obj in inspect.getmembers(module):
-        if name.startswith("__"):
+        if name.startswith("__") or inspect.isbuiltin(obj):
             continue
 
-        if inspect.isbuiltin(obj):
-            continue
-
-        o_type = None
-        if inspect.isclass(obj):
-            o_type = "c"
-        elif inspect.isfunction(obj):
-            o_type = "f"
-
+        o_type = get_object_type(obj)
         if not o_type:
             continue
 
         try:
             lines, start = inspect.getsourcelines(obj)
-        except (TypeError, OSError) as e:
+        except (TypeError, OSError) as e:  # noqa
+            # print(e)
             continue
-            print(e)
 
-        key = "{}.{}".format(obj.__module__, obj.__name__)
+        key = "{}.{}".format(obj.__module__, name)
         if module.__name__ == obj.__module__:
             objs[key] = {
-                'name': obj.__name__,
+                'name': name,
                 'module': obj.__module__,
                 'short_import': "",
                 'docstring': inspect.getdoc(obj) or "",
@@ -55,16 +58,17 @@ def describe(module, convs):
             }
             convs = update_conv(key, obj.__module__, convs)
         else:
+            # TODO obj.__name__ vs name
             key = "%s.%s" % (obj.__module__, obj.__name__)
-            if not hasattr(module, "__all__"):
-                convs = update_conv(key, module.__name__, convs)
+            convs = update_conv(key, module.__name__, convs)
     return objs, convs
 
 
 def inspect_code(tag):
-    from git import Git
-    g = Git("/home/kviktor/Python/dj-import/dilu/repo_django")
+    g = Git(repo_dir)
     g.checkout(tag)
+    subprocess.call(["py3clean", repo_dir])
+
     import django
     importlib.reload(django)
     os.environ["DJANGO_SETTINGS_MODULE"] = "settings"
@@ -73,7 +77,7 @@ def inspect_code(tag):
     print("tag: {}, imported: {}".format(tag, django.get_version()))
 
     objs = {}
-    convs = {}
+    convs = {}  # convenient import path
     modules = []
     for dirpath, dirnames, filenames in os.walk("repo_django/django/"):
         dirpath = dirpath.rstrip("/")
@@ -99,8 +103,8 @@ def inspect_code(tag):
                     module = importlib.import_module(import_path)
                 except Exception as e:
                     continue
-            partial_objs, convs = describe(module, convs)
-            objs.update(partial_objs)
+            partial_objects, convs = describe(module, convs)
+            objs.update(partial_objects)
             modules.append({
                 'path': module.__name__,
                 'filename': os.path.basename(os.path.relpath(module.__file__,
@@ -110,8 +114,9 @@ def inspect_code(tag):
     for full, short in convs.items():
         try:
             objs[full]['short_import'] = short
-        except KeyError as e:
-            print("Key not found: %s" % e)
+        except KeyError as e:  # noqa
+            # print("Key not found: %s" % e)
+            pass
 
     return {'modules': modules, 'objects': objs}
 

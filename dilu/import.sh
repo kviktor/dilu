@@ -1,7 +1,8 @@
 #!/bin/sh
 
-test -d repo_django/ || git clone https://github.com/django/django.git repo_django
-git -C "repo_django/" fetch
+gitroot=$(git rev-parse --show-toplevel)
+test -d $gitroot/dilu/repo_django || git clone https://github.com/django/django.git $gitroot/dilu/repo_django
+git -C $gitroot/dilu/repo_django fetch
 
 for i in "1.9.2" "1.8.9" "1.7.2" "1.6.5"
 do

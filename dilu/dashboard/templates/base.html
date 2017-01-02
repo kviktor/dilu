@@ -21,24 +21,26 @@
 
   <body>
     <!-- Fixed navbar -->
-      <nav class="navbar navbar-dark bg-inverse navbar-fixed-top">
-        <div class="container">
-          <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
-            <a class="navbar-brand" href="/">
-              Django Import LookUp
-            </a>
-            <ul class="nav navbar-nav pull-xs-right">
-              <li class="nav-item">
-                <a class="nav-link" href="#">useless stats</a>
-              </li>
-            </ul>
-          </div>
+    <nav class="navbar navbar-dark bg-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+          <a class="navbar-brand" href="/">
+            Django Import LookUp
+          </a>
+          <!--
+          <ul class="nav navbar-nav pull-right">
+            <li class="nav-item">
+              <a class="nav-link" href="#">useless stats</a>
+            </li>
+          </ul>
+          -->
         </div>
-      </nav>
+      </div>
+    </nav>
 
     <!-- Begin page content -->
     <div class="container">
-      <div class="jumbotron">
+      <div class="jumbotron clearfix">
         <form method="GET" action="" class="form-inline" autocomplete="off">
           {{ form.query }}
           {{ form.version }}
@@ -50,7 +52,7 @@
               <strong>{{ num }}</strong> results found.
             {% endblocktrans %}
           </div>
-          <div class="alert alert-warning{% if not form.errors %} hidden{% endif %}">
+          <div class="alert alert-warning{% if not form.errors or not request.GET.query %} hidden{% endif %}">
             {% trans "The search query must be at least 3 characters long." %}
           </div>
         </form>
@@ -61,7 +63,10 @@
     </div>
 
     <footer class="footer">
-      <span class="text-muted pull-right">made by me</span>
+      <span class="text-muted pull-right">
+        {% trans "More information" %}:
+        <a href="https://github.com/kviktor/dilu">dilu</a>
+      </span>
     </footer>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>

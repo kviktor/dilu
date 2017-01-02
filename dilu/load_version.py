@@ -5,7 +5,7 @@ import django
 os.environ["DJANGO_SETTINGS_MODULE"] = "dilu.settings"
 django.setup()
 
-from dilu.models import Version, Object, Module
+from dilu.models import Version, Object, Module  # noqa
 
 
 def load_version(name, tag, data):
@@ -14,10 +14,10 @@ def load_version(name, tag, data):
     Object.objects.filter(module__version=version).delete()
     Module.objects.filter(version=version).delete()
 
-    tmp = []
-    for value in data['modules']:
-        tmp.append(Module(version=version, **value))
-    Module.objects.bulk_create(tmp, batch_size=500)
+    Module.objects.bulk_create([
+        Module(version=version, **value)
+        for value in data['modules']
+    ], batch_size=500)
 
     tmp = []
     for key, value in data['objects'].items():

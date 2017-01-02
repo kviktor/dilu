@@ -45,3 +45,8 @@ class Object(Model):
         return "https://github.com/django/django/tree/%s/%s#L%s" % (
             self.module.version.tag, self.module.get_full_path(), self.line
         )
+
+    def get_doc_url(self):
+        return "//docs.djangoproject.com/en/%s/search/?q=%s" % (
+            ".".join(self.module.version.tag.split(".")[:2]), self.name,
+        )

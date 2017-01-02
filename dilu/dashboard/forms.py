@@ -8,7 +8,7 @@ class SearchForm(Form):
     query = CharField(
         min_length=3,
         widget=TextInput(attrs={'class': "form-control",
-                                'placeholder': _("Class or function")})
+                                'placeholder': _("Class or function name")})
     )
     version = ModelChoiceField(
         queryset=Version.objects.all(),
