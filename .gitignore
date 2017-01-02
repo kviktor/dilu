@@ -6,3 +6,4 @@ repo_django/
 *.db
 *.sqlite3
 *.json
+static_collected
